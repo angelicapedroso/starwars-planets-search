@@ -2,7 +2,9 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 function Table() {
-  const { data: database } = useContext(Context);
+  const { data: database, filterByName } = useContext(Context);
+
+  const getFilterByName = () => database.filter((el) => el.name.includes(filterByName));
 
   return (
     <table>
@@ -24,7 +26,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { database.map((data) => (
+        { getFilterByName().map((data) => (
           <tr key={ data.name }>
             <td>{ data.name }</td>
             <td>{ data.rotation_period }</td>

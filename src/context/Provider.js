@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import Context from './Context';
@@ -5,6 +6,7 @@ import fetchPlanets from '../services/API';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [filterByName, setFilterByName] = useState('');
 
   useEffect(() => {
     const getAPI = async () => {
@@ -16,7 +18,7 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <Context.Provider value={ { data } }>
+    <Context.Provider value={ { filterByName, setFilterByName, data } }>
       { children }
     </Context.Provider>
   );
