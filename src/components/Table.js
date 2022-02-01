@@ -1,10 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Context from '../context/Context';
 
 function Table() {
-  const { data: database, filterByName } = useContext(Context);
+  const { data: database, filterByName, newData } = useContext(Context);
+  const [dataFilter, setDataFilter] = useState([]);
 
-  const getFilterByName = () => database.filter((el) => el.name.includes(filterByName));
+  useEffect(() => {
+    const getFilter = () => {
+      if (newData.length > 0) {
+        return newData;
+      }
+      return database.filter((el) => el.name.includes(filterByName));
+    };
+    setDataFilter(getFilter());
+  }, [database, newData, filterByName]);
 
   return (
     <table>
@@ -26,7 +35,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { getFilterByName().map((data) => (
+        { dataFilter.map((data) => (
           <tr key={ data.name }>
             <td>{ data.name }</td>
             <td>{ data.rotation_period }</td>
