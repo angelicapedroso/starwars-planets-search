@@ -16,6 +16,14 @@ function Header() {
     value: 0,
   });
 
+  const [selectsColumn, setSelectsColumn] = useState({
+    population: true,
+    orbital_period: true,
+    diameter: true,
+    rotation_period: true,
+    surface_water: true,
+  });
+
   const handleChange = ({ target }) => {
     const { value, name } = target;
     setFilterByNumeric({ ...filterByNumeric, [name]: value });
@@ -28,8 +36,13 @@ function Header() {
     return setFilterByNumericValues([...filterByNumericValues, filterByNumeric]);
   };
 
+  const getSelect = () => {
+    setSelectsColumn({ ...selectsColumn, [filterByNumeric.column]: false });
+  };
+
   const setFilter = () => {
     validationFilter();
+    getSelect();
     if (filterByNumeric.comparison === 'maior que') {
       return setNewData(data.filter((value) => Number(value[filterByNumeric.column])
         > Number(filterByNumeric.value)));
@@ -44,6 +57,13 @@ function Header() {
     }
     return data;
   };
+
+  const {
+    population,
+    diameter,
+    orbital_period: orbitalPeriod,
+    rotation_period: rotationPeriod,
+    surface_water: surfaceWater } = selectsColumn;
 
   return (
     <form>
@@ -64,11 +84,11 @@ function Header() {
         value={ filterByNumeric.column }
         onChange={ handleChange }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { population && <option value="population">population</option>}
+        { orbitalPeriod && <option value="orbital_period">orbital_period</option>}
+        { diameter && <option value="diameter">diameter</option>}
+        { rotationPeriod && <option value="rotation_period">rotation_period</option>}
+        { surfaceWater && <option value="surface_water">surface_water</option>}
       </select>
 
       <select
@@ -106,3 +126,5 @@ function Header() {
 }
 
 export default Header;
+
+// ajuda do Emerson Moreira e Rafael Carvalho
